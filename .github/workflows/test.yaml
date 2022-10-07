@@ -11,4 +11,10 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build
         id: build
-        run: cat Buildfile
+        env:
+          REPOSITORY_SECRET: ${{ secrets.REPOSITORY_SECRET }}
+          ENVIRONMENT_SECRET: ${{ secrets.ENVIRONMENT_SECRET }}
+        run: |
+          cat Buildfile
+          echo "Repository secret: -- ${REPOSITORY_SECRET} --"
+          echo "Environment secret: -- ${ENVIRONMENT_SECRET} --"
