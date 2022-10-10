@@ -1,6 +1,11 @@
 name: Tests
 
-on: [pull_request]
+on:   
+  workflow_run:
+    workflows:
+      - gatekeeper
+    types:
+      - completed
 
 jobs:
   tests:
@@ -15,6 +20,7 @@ jobs:
           REPOSITORY_SECRET: ${{ secrets.REPOSITORY_SECRET }}
           ENVIRONMENT_SECRET: ${{ secrets.ENVIRONMENT_SECRET }}
         run: |
+          echo Running acceptance tests...
           cat Buildfile
           echo "Repository secret: -- ${REPOSITORY_SECRET} --"
           echo "Environment secret: -- ${ENVIRONMENT_SECRET} --"
