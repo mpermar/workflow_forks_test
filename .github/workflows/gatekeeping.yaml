@@ -26,3 +26,21 @@ jobs:
           cat Buildfile
           echo "Repository secret: -- ${REPOSITORY_SECRET} --"
           echo "Environment secret: -- ${ENVIRONMENT_SECRET} --"
+  safe-to-test:
+    name: Tests contributions
+    runs-on: ubuntu-latest
+    needs: gatekeeper
+    environment: safe-to-test
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        id: build
+        env:
+          REPOSITORY_SECRET: ${{ secrets.REPOSITORY_SECRET }}
+          ENVIRONMENT_SECRET: ${{ secrets.ENVIRONMENT_SECRET }}
+        run: |
+          echo Running gatekeeping logic...
+          cat Buildfile
+          echo "Repository secret: -- ${REPOSITORY_SECRET} --"
+          echo "Environment secret: -- ${ENVIRONMENT_SECRET} --"
