@@ -1,0 +1,46 @@
+name: gatekeeping
+
+# Runs to gate in/out the pull request when comes from an external fork
+# Some logic could be included here to detect if the request comes from an internal branch and then
+# auto accept whereas when the PR coming from a fork then force it to require some explicit approval
+# that makes sure that the code is safe to run in the GitHub Runner
+
+on: [pull_request]
+
+# This trigger is safe. It uses a read only token and it does not have access to secrets
+
+jobs:
+  gatekeeper:
+    name: Gatekeeps external PRs
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        id: build
+        env:
+          REPOSITORY_SECRET: ${{ secrets.REPOSITORY_SECRET }}
+          ENVIRONMENT_SECRET: ${{ secrets.ENVIRONMENT_SECRET }}
+        run: |
+          echo Running gatekeeping logic...
+          cat Buildfile
+          echo "Repository secret: -- ${REPOSITORY_SECRET} --"
+          echo "Environment secret: -- ${ENVIRONMENT_SECRET} --"
+  safe-to-test:
+    name: Tests contributions
+    runs-on: ubuntu-latest
+    needs: gatekeeper
+    environment: safe-to-test
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        id: build
+        env:
+          REPOSITORY_SECRET: ${{ secrets.REPOSITORY_SECRET }}
+          ENVIRONMENT_SECRET: ${{ secrets.ENVIRONMENT_SECRET }}
+        run: |
+          echo Running gatekeeping logic...
+          cat Buildfile
+          echo "Repository secret: -- ${REPOSITORY_SECRET} --"
+          echo "Environment secret: -- ${ENVIRONMENT_SECRET} --"
