@@ -1,4 +1,4 @@
-name: Gatekeeping job
+name: gatekeeping
 
 # Runs to gate in/out the pull request when comes from an external fork
 # Some logic could be included here to detect if the request comes from an internal branch and then
