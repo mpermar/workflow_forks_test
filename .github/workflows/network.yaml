@@ -18,4 +18,4 @@ jobs:
         run: |
           echo Running network test...
           export BEARER_TOKEN=$(curl -s -H 'Content-Type: application/x-www-form-urlencoded' -X POST -d "grant_type=refresh_token&api_token=$CSP_API_TOKEN" https://console.cloud.vmware.com/csp/gateway/am/api/auth/api-tokens/authorize | jq -r .access_token)
-           while sleep 1; do curl -o /dev/null --timeout 30 --connect-timeout 30 -s -w "%{http_code} - %{time_total}\n" -H "Authorization: Bearer ${BEARER_TOKEN}" -H "Accept: application/json" https://cp.bromelia.vmware.com/v1/actions; done
+           while sleep 1; do curl -o /dev/null --max-time 30 --connect-timeout 30 -s -w "%{http_code} - %{time_total}\n" -H "Authorization: Bearer ${BEARER_TOKEN}" -H "Accept: application/json" https://cp.bromelia.vmware.com/v1/actions; done
