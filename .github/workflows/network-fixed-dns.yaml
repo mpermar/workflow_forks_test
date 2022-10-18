@@ -1,11 +1,11 @@
-name: network-test
+name: network-test-fixed-dns
 
 
 on: 
   workflow_dispatch:
 
 jobs:
-  network-test:
+  network-test-fixed-dns:
     name: Network test
     runs-on: ubuntu-latest
 
